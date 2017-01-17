@@ -5,7 +5,6 @@ import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
@@ -20,9 +19,7 @@ import com.xc.filter.AccessFilter;
 *  
 */
 @EnableZuulProxy
-@EnableDiscoveryClient
 @SpringCloudApplication			//SpringCloudApplication注解，整合@SpringBootApplication、@EnableDiscoveryClient、@EnableCircuitBreaker
-@EnableCircuitBreaker		// 开启断路器
 public class GatewayApplication {
 
 	public static void main(String[] args) {
@@ -36,15 +33,5 @@ public class GatewayApplication {
 	@Bean
 	public AccessFilter accessFilter() {
 		return new AccessFilter();
-	}
-	
-	/**
-	 * 实例化RestTemplate开启负载均衡
-	 * @return
-	 */
-	@Bean
-	@LoadBalanced
-	RestTemplate restTemplate() {
-		return new RestTemplate();
 	}
 }
