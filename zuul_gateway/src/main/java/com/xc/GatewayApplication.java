@@ -6,6 +6,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 
 import com.xc.filter.AccessFilter;
+import com.xc.filter.CircuitFilter;
 
 /** 
 * @ClassName: GatewayApplication 
@@ -29,5 +30,10 @@ public class GatewayApplication {
 	@Bean
 	public AccessFilter accessFilter() {
 		return new AccessFilter();
+	}
+	
+	@Bean
+	public CircuitFilter circuitFilter() {
+		return new CircuitFilter();
 	}
 }
