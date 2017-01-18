@@ -33,7 +33,7 @@ public class ZuulConsts {
 	
 	public static Map<String, ResourceVo> sentineMap = new HashMap<>();	//限流map，保存用户配置信息
 	
-	public static Map<String, ConcurrentLinkedHashMap> lruMap = new HashMap<>();	//保存资源的实际请求流水
+	public static Map<String, ConcurrentLinkedHashMap<String, Long>> lruMap = new HashMap<>();	//保存资源的实际请求流水
 	
 	public static String ALICP_HEADER_VERSION = "x-ca-version";
 	

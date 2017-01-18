@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 
-import com.ctc.wstx.util.StringUtil;
 import com.netflix.zuul.ZuulFilter;
 import com.xc.flowcontrol.consts.ZuulConsts;
 import com.xc.flowcontrol.util.SentineUtil;
