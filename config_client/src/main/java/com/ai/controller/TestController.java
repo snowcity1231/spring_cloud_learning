@@ -8,10 +8,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.HttpClientConnectionManager;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 /** 
 * @ClassName: TestController 
@@ -34,48 +44,26 @@ public class TestController {
 	
 	/**
 	 * 模拟post请求到http://localhost:7002/refresh，刷新配置值
+	 * @return
 	 */
-	@RequestMapping(value = "post")
-	public String post() {
-		PrintWriter out = null;
-		BufferedReader in = null;
-		String result = "";
+	@RequestMapping("/doPost")
+	public static String doPost() {
+		String response = "";
+		CloseableHttpClient httpClient = null;
+		CloseableHttpResponse httpResponse = null;
+		HttpEntity httpEntity = null;
 		
 		try {
-			URL url = new URL("http://localhost:7002/refresh");
-			URLConnection conn = url.openConnection();
-			conn.setRequestProperty("accept", "*/*");
-			conn.setRequestProperty("connection", "Keep-Alive");
-			//post请求
-			conn.setDoOutput(true);
-			conn.setDoInput(true);
-			
-			out = new PrintWriter(conn.getOutputStream());
-			out.println();
-			out.flush();
-			in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String line;
-			while((line = in.readLine()) != null) {
-				result += line;
-			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			httpClient = HttpClients.createDefault();
+			HttpPost httpPost = new HttpPost("http://localhost:7002/refresh");
+			httpResponse = httpClient.execute(httpPost);
+			httpEntity = httpResponse.getEntity();
+			response = EntityUtils.toString(httpEntity, "UTF-8");
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if(out != null) {
-					out.close();
-				}
-				if(in != null) {
-					in.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 		
-		
-		return result;
+		return response;
 	}
+	
 }
