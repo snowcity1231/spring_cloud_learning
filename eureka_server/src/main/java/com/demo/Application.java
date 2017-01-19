@@ -15,6 +15,10 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 @SpringBootApplication
 public class Application {
 
+	/**
+	 * 通过在启动时设置spring.profiles.active属性分别启动peer1、peer2
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(Application.class).web(true).run(args);
 	}
